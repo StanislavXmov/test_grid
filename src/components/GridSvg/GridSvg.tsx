@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Cell, useGrid } from '../../store';
+import { Cell, CellTypes, useGrid } from '../../store';
 
 import styles from './GridSvg.module.scss';
 
@@ -8,8 +8,9 @@ type GridSvgProps = {
   height: number;
 }
 
-type CellTypes = '1';
 const n = 20;
+// const color = "#292929";
+const color = "#f0f0f0";
 
 type CellTypeVariant = {
   width: number;
@@ -21,27 +22,51 @@ const type1 = {
   width: 18,
   height: 18,
   rx:9,
-  fill:"#292929",  
+  fill: color,  
+}
+
+const type2 = {
+  width: 20,
+  height: 20,
+  rx:10,
+  fill: color,  
+}
+
+const type3 = {
+  width: 20,
+  height: 20,
+  rx:7,
+  fill: color,  
+}
+
+const type4 = {
+  width: 20,
+  height: 20,
+  rx:3,
+  fill: color,  
 }
 
 const types: Record<CellTypes, CellTypeVariant> = {
   "1": type1,
+  "2": type2,
+  "3": type3,
+  "4": type4,
 }
 
-const getX = (cell: Cell, type: CellTypes) => {
-  if (type === '1') {
+const getX = (cell: Cell) => {
+  if (cell.type === '1') {
     return cell.col * n  + 1;
+  } else {
+    return cell.col * n;
   }
 }
 
-const getY = (cell: Cell, type: CellTypes) => {
-  if (type === '1') {
+const getY = (cell: Cell) => {
+  if (cell.type === '1') {
     return cell.row * n  + 1;
+  } else {
+    return cell.row * n;
   }
-}
-
-const getType = (cell: Cell, cells: Cell[][]): CellTypes => {
-  return '1';
 }
 
 export const GridSvg = ({height, width}: GridSvgProps) => {
@@ -58,21 +83,27 @@ export const GridSvg = ({height, width}: GridSvgProps) => {
       {cells.map((c, i) => (
         <Fragment key={i}>
           {c.map(cell => {
-            const type = getType(cell, cells);
-
-            return (
-              cell.isActive ? 
-              <rect
-              key={cell.id}
-              x={getX(cell, type)}
-              y={getY(cell, type)}
-              {...types[type]}
-              /> 
-              : null
-            )
+            if (cell.isActive) {
+              return (
+                <rect
+                  key={cell.id}
+                  x={getX(cell)}
+                  y={getY(cell)}
+                  {...types[cell.type]}
+                />
+              );
+            } else {
+              return null;
+            }
           })}
         </Fragment>
       ))}
     </svg>
   );
 }
+
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="20" height="20" rx="7" fill="black"/>
+</svg>
+
+

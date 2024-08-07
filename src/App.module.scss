@@ -4,8 +4,13 @@
   margin: 0 auto;
   padding: 24px;
   display: flex;
+  flex-direction: column;
   gap: 12px;
 
   background: #292929;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
 }
 
