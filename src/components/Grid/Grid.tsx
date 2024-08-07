@@ -1,7 +1,7 @@
 import { Fragment, MouseEvent } from 'react';
 import { useGrid } from '../../store';
-import styles from './Grid.module.scss';
 
+import styles from './Grid.module.scss';
 
 export const Grid = () => {
   const cells = useGrid(s => s.cells);

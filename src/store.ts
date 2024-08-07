@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type Cell = {
+export type Cell = {
   row: number;
   col: number;
   id: number;
