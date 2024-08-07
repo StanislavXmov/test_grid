@@ -49,6 +49,20 @@ const setTypeByNeighbor = (cell: Cell) => {
   }
 }
 
+const setNeighbor = (cell: Cell, neighborCell: Cell) => {
+  if (neighborCell && neighborCell.isActive) {
+    if (cell.isActive) {
+      cell.neighbor++;
+      neighborCell.neighbor++;
+    } else {
+      cell.neighbor--;
+      neighborCell.neighbor--;
+    }
+    
+    setTypeByNeighbor(neighborCell);
+  }
+}
+
 export const useGrid = create<GridStore>((set, get) => ({
   cells: getCells(),
   setCells: (row, col) => {
@@ -61,53 +75,10 @@ export const useGrid = create<GridStore>((set, get) => ({
     const eCell = cells[row][col - 1];
     const wCell = cells[row][col + 1];
 
-    if (nCell && nCell.isActive) {
-      if (cell.isActive) {
-        cell.neighbor++;
-        nCell.neighbor++;
-      } else {
-        cell.neighbor--;
-        nCell.neighbor--;
-      }
-      
-      setTypeByNeighbor(nCell);
-    }
-
-    if (sCell && sCell.isActive) {
-      if (cell.isActive) {
-        cell.neighbor++;
-        sCell.neighbor++;
-      } else {
-        cell.neighbor--;
-        sCell.neighbor--;
-      }
-      
-      setTypeByNeighbor(sCell);
-    }
-
-    if (eCell && eCell.isActive) {
-      if (cell.isActive) {
-        cell.neighbor++;
-        eCell.neighbor++;
-      } else {
-        cell.neighbor--;
-        eCell.neighbor--;
-      }
-      
-      setTypeByNeighbor(eCell);
-    }
-
-    if (wCell && wCell.isActive) {
-      if (cell.isActive) {
-        cell.neighbor++;
-        wCell.neighbor++;
-      } else {
-        cell.neighbor--;
-        wCell.neighbor--;
-      }
-      
-      setTypeByNeighbor(wCell);
-    }
+    setNeighbor(cell, nCell);
+    setNeighbor(cell, sCell);
+    setNeighbor(cell, eCell);
+    setNeighbor(cell, wCell);
 
     setTypeByNeighbor(cell);
 
